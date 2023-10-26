@@ -18,12 +18,12 @@ int main() {
     struct notes_freq x = scale();
 
     // Print the note names and their corresponding frequencies
-    for (int i = 0; i < 37; i++) {
+    /*for (int i = 0; i < 37; i++) {
         printf("%s: %.2f Hz\n", x.notes[i], x.freqs[i]);
-    }
+    }*/
 
     // Call the 'tune' function with an example frequency
-    tune(234.5);
+    tune(440.5);
     return 0;
 }
 
