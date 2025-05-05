@@ -23,7 +23,7 @@ int main() {
     }
 
     // Call the 'tune' function with an example frequency (440.5 Hz as an integer)
-    tune(278788);
+    tune(355789);
     return 0;
 }
 
@@ -75,7 +75,7 @@ void tune(int note_freq) {
 }
 
 struct notes_freq scale() {
-    // Initialize the 'music' structure to store note names and frequencies
+    // Initialise the 'music' structure to store note names and frequencies
     struct notes_freq music;
 
     // Define the basic note names without octaves

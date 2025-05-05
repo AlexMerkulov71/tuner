@@ -1,0 +1,29 @@
+###cd to Technology Library Path###
+cd /CMC/kits/GPDK45/
+
+###Create Constraint from SDC File###
+create_constraint_mode -name noteTunerConstraint -sdc_files [list /home/alexmerkulov/tuner/innovus/note_tuner.sdc]
+
+###Create RC Corner from QX Techfile###
+create_rc_corner -name rc_typical -qx_tech_file gsclib045_all_v4.4/gsclib045_tech/qrc/qx/gpdk045.tch
+
+###Create Library Set for Each Corner###
+create_library_set -name Slowlib1v0 -timing {gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib}
+create_library_set -name Fastlib1v0 -timing {gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib}
+create_library_set -name Slowlib1v2 -timing {gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v2_basicCells.lib}
+create_library_set -name Fastlib1v2 -timing {gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v2_basicCells.lib}
+
+###Create Delay Corner for Each Library Set and RC Corner###
+create_delay_corner -name DCSlow -library_set {Slowlib1v0} -rc_corner {rc_typical}
+create_delay_corner -name DCFast -library_set {Fastlib1v0} -rc_corner {rc_typical}
+create_delay_corner -name DCSlow1v2 -library_set {Slowlib1v2} -rc_corner {rc_typical}
+create_delay_corner -name DCFast1v2 -library_set {Fastlib1v2} -rc_corner {rc_typical}
+
+###Create Analysis View for Each Constraint and Delay Corner###
+create_analysis_view -name setup -constraint_mode noteTunerConstraint -delay_corner {DCSlow}
+create_analysis_view -name hold -constraint_mode noteTunerConstraint -delay_corner {DCFast}
+create_analysis_view -name setup1v2 -constraint_mode noteTunerConstraint -delay_corner {DCSlow1v2}
+create_analysis_view -name hold1v2 -constraint_mode noteTunerConstraint -delay_corner {DCFast1v2}
+
+###Set Analysis Views for Setup and Hold
+set_analysis_view -setup {setup setup1v2} -hold {hold hold1v2}

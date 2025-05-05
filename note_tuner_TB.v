@@ -23,12 +23,13 @@
 module note_tuner_TB();
 
     reg clk;
-    reg [18:0] note;
-    wire [18:0] closest_freq;
+    reg on;
+    real note;
+    //wire [18:0] closest_freq;
     wire [3:0] closest_note;
     wire flat, sharp, in_tune;
     
-    note_tuner DUT_note_tuner (.clk(clk), .note(note), .closest_freq(closest_freq), .closest_note(closest_note), .flat(flat), .sharp(sharp), .in_tune(in_tune));
+    note_tuner DUT_note_tuner (.clk(clk), .note_in(note), .closest_note(closest_note), .flat(flat), .sharp(sharp), .in_tune(in_tune), .on(on));
     
     always begin
         #5 clk = ~clk;
@@ -37,13 +38,18 @@ module note_tuner_TB();
     initial begin
         
         clk = 0;
-        note = 19'b0;
-    
-        #10 note = 355789;
+        on = 1;
+        note = 0;
+        
+        #11 note = 355.789;
+        #9;
+        #11 note = 56.789;
         #10;
-        #10 note = 56789;
-        #10;
-        #10 note = 440050;
+        #12 note = 440.050;
+        #8;
+        #7 on = 0;
+        #5 note = 123.45;
+        #13 on = 1;
         #50;
         $finish;
         
